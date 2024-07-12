@@ -7,8 +7,10 @@
 # Create the user with the provided username and set the password
 if id "$SSH_USERNAME" &>/dev/null; then
     echo "User $SSH_USERNAME already exists"
+    echo "$SSH_USERNAME:$PASSWORD" | chpasswd
+    echo "User $SSH_USERNAME created with the provided password"
 else
-    useradd -ms /bin/bash "$SSH_USERNAME"
+    useradd -rm -d /home/$SSH_USERNAME -s /bin/bash -g root -G sudo "$SSH_USERNAME"
     echo "$SSH_USERNAME:$PASSWORD" | chpasswd
     echo "User $SSH_USERNAME created with the provided password"
 fi
